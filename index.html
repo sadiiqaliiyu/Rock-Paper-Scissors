@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Rock, Scissors, Paper</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div class="main winner">
+            <div class="screen">
+               
+                <div id = scores>
+                    <div id=player><span><img src="images/boy.png" width="50px" height="50px">Player</span></div>
+                    <div id=computer><span><img src="images/robots.png" width="50px" height="50px">Computer</span></div>
+                </div>
+                <span class=gameScores>Round</span>
+                <div class="scoreBoardWrapper">
+                    <div class=scoreBoard>
+                        <span class='round'></span>
+                    </div>
+                    
+                </div>
+                <div class="playBoard">
+                        <div class="scoreBoardWrapper">
+                            <div class=scoreBoard>
+                                <span class='playerScore'>0</span>:<span class="computerScore">0</span>
+                            </div>
+                            
+                        </div>
+                    <div id='rounds'><h1>Round 1</h1></div>
+                    <div class='group'>
+                        <img data-type ='human' class ='rock scissors paper' src="images/leftRock.png">
+                        <img data-type ='computer' data-type='right' src="images/rightRock.png">
+                    </div>
+                    <div id="wrapper">
+                        <div id="roundWinnerBox">
+                            <h2></h2>
+                            <span class="info"></span>
+                        </div>  
+                    </div>
+                </div>
+                
+
+                <div id='rules'>
+                    <button class="end">End Game</button>
+                    <button class="new">New Game</button>
+                    
+                </div>
+
+                <div id='help'>
+                    <span>?</span>
+                    <!--<h1>Rules:</h1>
+                    <h2>First to score 5 points win!</h2>-->
+                </div>
+                          
+            </div>
+            
+            <div class="keys">
+                <div id = 'rock' data-key = "82" class="key playing">
+                   <!-- <kbd>R</kbd> -->
+                    <span class="sound">rock</span>
+                </div>
+                <div id = 'paper' data-key = "80" class="key playing" >
+                    <!--<kbd>P</kbd> -->
+                    <span class="sound">paper</span>
+
+                </div>
+                <div id = 'scissors' data-key = "83" class="key playing">
+                   <!-- <kbd>S</kbd> -->
+                    <span class="sound">scissors</span>
+                </div>
+            </div>
+
+
+            <div class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <img src="images/boy.png" width="50px" height="50px">
+                    <span class="name"></span>Player</span>
+                    <hr>
+                    <h1>Congrats! You win!</h1>
+                    
+                </div>
+            </div>
+           
+
+        </div>
+
+
+
+        <audio data-key="82" src="sounds/rock.wav"></audio>
+        <audio data-key="80" src="sounds/paper.wav"></audio>
+        <audio data-key="83" src="sounds/scissors.wav"></audio>
+
+               
+
+        <script>
+
+
+            let playerScore = 0;
+            let computerScore = 0;
+            let stageRound = 0;
+            let rounds = document.querySelector('.round');
+            let score1 = document.querySelector('.playerScore');
+            let score2 = document.querySelector('.computerScore');
+            let winner = document.querySelector('.winner');
+            
+            function startGame() {
+                const buttons = document.querySelectorAll('.key');
+            buttons.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                
+                let scoreSheet = "";
+                stageRound++
+                rounds.textContent = stageRound;
+
+                
+                
+
+                
+                if(button.id == 'rock')
+                {
+                    let computerChoice;
+                    let playerChoice = rock;
+
+                    const img = document.querySelector('img[data-type="human"]');
+                    img.src = "images/leftRock.png";
+                    const audio = document.querySelector('audio[data-key="82"]');
+                    let img2 = document.querySelector('img[data-type="computer"]');
+                    let info = document.querySelector('.info');
+
+                    audio.currentTime = 0;
+                    audio.play();
+
+                    scoreSheet = document.querySelector('h2');
+                    computerChoice = playComputer();
+                    console.log(computerChoice);
+                    if (computerChoice == 'rock') {
+                        img2.src = "images/rightRock.png";
+                        scoreSheet = document.querySelector('h2');
+                        scoreSheet.textContent ="It's a tie!";
+                        info.textContent = "Play again"
+                        stageRound--;
+                    }
+                    else if (computerChoice == "scissors"){
+                        img2.src = "images/rightScissors.png";
+                        scoreSheet = document.querySelector('h2');
+                        scoreSheet.textContent = "You win!";
+                        info.textContent = "Rock beats scissors";
+                        playerScore += 1;
+                        score1.textContent = playerScore;
+                    }
+                    else
+                    {
+                        img2.src = "images/rightPaper.png";
+                        scoreSheet = document.querySelector('h2');
+                        scoreSheet.textContent = "Bot wins!";
+                        info.textContent = "Paper beats rock"
+                        computerScore +=1;
+                        score2.textContent = computerScore;
+                    }  
+                }
+
+
+                else if (button.id == 'paper')
+                {
+                    const img = document.querySelector('img[data-type="human"]');
+                    img.src = "images/leftPaper.png";
+                    const audio = document.querySelector('audio[data-key="80"]');
+                    let img2 = document.querySelector('img[data-type="computer"]');
+                    let info = document.querySelector('.info');
+                    audio.currentTime = 0;
+                    audio.play();
+
+                    let computerChoice = playComputer();
+                    console.log(computerChoice);
+
+                    if (computerChoice == 'paper') {
+                        img2.src = "images/rightPaper.png";
+                        scoreSheet = document.querySelector('h2');
+                        scoreSheet.textContent = "It's a tie!";
+                        info.textContent = "play again";
+                        stageRound--;
+                    }
+                    else if (computerChoice == "rock"){
+                        img2.src = "images/rightRock.png";
+                        scoreSheet = document.querySelector('h2');
+                        scoreSheet.textContent = "You win!";
+                        info.textContent = "Paper beats rock";
+                        playerScore += 1;
+                        score1.textContent = playerScore;
+                    }
+                    else { 
+                        img2.src = "images/rightScissors.png";
+                        scoreSheet = document.querySelector('h2');
+                        scoreSheet.textContent = "Bot wins!";
+                        info.textContent = "Scissors beat paper";
+                        computerScore +=1;
+                        score2.textContent = computerScore;
+                    }
+                }
+                else{
+                    const img = document.querySelector('img[data-type="human"]');
+                    img.src = "images/leftScissors.png"
+                    const audio = document.querySelector('audio[data-key="83"]');
+                    let img2 = document.querySelector('img[data-type="computer"]');
+                    let info = document.querySelector('.info');
+                    audio.currentTime = 0;
+                    audio.play();
+
+                    let computerChoice = playComputer();
+                    console.log(computerChoice);
+                    if (computerChoice == 'scissors') {
+                        img2.src = "images/rightScissors.png";
+                        scoreSheet = document.querySelector('h2');
+                        scoreSheet.textContent = " It's a tie!";
+                        info.textContent = "Play again";
+                        stageRound--;
+
+                    }
+                    else if (computerChoice == "paper"){
+                        img2.src = "images/rightPaper.png";
+                        scoreSheet = document.querySelector('h2');
+                        scoreSheet.textContent = "You win!";
+                        info.textContent = "Scissors beats paper"
+                        playerScore += 1;
+                        score1.textContent = playerScore;
+                    }
+                    else{
+                        img2.src = "images/rightRock.png";
+                        scoreSheet = document.querySelector('h2');
+                        scoreSheet.textContent = "Bot wins!"; 
+                        info.textContent = "Rock beats scissors";
+                        computerScore +=1;
+                        score2.textContent = computerScore;               }
+                    }
+                   checkWinner();
+                })
+
+            });
+
+            }
+
+            function endGame() {
+                location.reload();
+            }
+
+            function checkWinner() {
+                let mode;
+                if (playerScore == 5) {
+                    mode = toggleModal
+                    toggleModal();
+                    
+                    
+                    
+                }
+                else if (computerScore == 5){
+                    let bot = document.querySelector('.modal img');
+                    let greeting = document.querySelector('.modal h1');
+                    let botName = document.querySelector('.modal .name');
+                    botName.textContent = 'Bot';
+                    greeting.textContent = 'You lose. Bot wins!'
+                    bot.src = 'images/robot.png';
+                    toggleModal();
+                    
+                }
+
+               
+                
+            }
+
+           
+            function playComputer ()
+            {
+                let number = Math.floor(Math.random() * 3);
+                let hand = "";
+                
+                if (number == 0)
+                {
+                    return hand = "rock";   
+
+                }
+                else if (number == 1)
+                {
+                    return hand = "scissors";
+                }
+                else
+                {
+                    return hand = "paper";
+                }
+            }
+
+            let end = document.querySelector('.end');
+            end.addEventListener('click', endGame);
+
+
+            let start = document.querySelector('.new');
+            start.addEventListener('click', startGame);
+
+            var modal = document.querySelector(".modal");
+            var trigger = document.querySelector(".trigger");
+            var closeButton = document.querySelector(".close-button");
+
+            function toggleModal() {
+                modal.classList.toggle("show-modal");
+                setTimeout(endGame, 3000);
+
+
+            }
+
+            function windowOnClick(event) {
+                if (event.target === modal) {
+                    toggleModal();
+                    setTimeout(endGame, 100);
+                }
+            }
+
+            trigger.addEventListener("click", toggleModal);
+            closeButton.addEventListener("click", toggleModal);
+            window.addEventListener("click", windowOnClick);
+
+                    
+
+            
+        </script>
+
+
+    </body>
+</html>
